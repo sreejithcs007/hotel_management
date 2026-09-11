@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_management/core/utils/date_utils.dart';
 import 'package:hotel_management/widget/booking_summary_card.dart';
 import 'package:hotel_management/widget/date_picker_field.dart';
 import 'package:hotel_management/widget/guest_filter_chips.dart';
@@ -74,7 +75,9 @@ class RoomBookingScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final room = rooms[index];
                     final isSelected = selected?.roomCode == room.roomCode;
-                    final isBooked = controller.isRoomBookedForSelectedDates(room);
+                    final isBooked = controller.isRoomBookedForSelectedDates(
+                      room,
+                    );
 
                     return RoomCard(
                       room: room,
@@ -100,29 +103,36 @@ class RoomBookingScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              Obx(() => Row(
-                    children: [
-                      Expanded(
-                        child: DatePickerField(
-                          label: 'Check-in Date',
-                          selectedDate: controller.checkIn.value,
-                          firstDate: firstDate,
-                          lastDate: lastDate,
-                          onDateSelected: (date) => controller.setCheckIn(date),
-                        ),
+              Obx(() {
+                final checkInVal = controller.checkIn.value;
+                final checkOutMinDate = checkInVal != null
+                    ? AppDateUtils.truncateToMidnight(checkInVal).add(const Duration(days: 1))
+                    : firstDate;
+
+                return Row(
+                  children: [
+                    Expanded(
+                      child: DatePickerField(
+                        label: 'Check-in Date',
+                        selectedDate: controller.checkIn.value,
+                        firstDate: firstDate,
+                        lastDate: lastDate,
+                        onDateSelected: (date) => controller.setCheckIn(date),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: DatePickerField(
-                          label: 'Check-out Date',
-                          selectedDate: controller.checkOut.value,
-                          firstDate: firstDate,
-                          lastDate: lastDate,
-                          onDateSelected: (date) => controller.setCheckOut(date),
-                        ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: DatePickerField(
+                        label: 'Check-out Date',
+                        selectedDate: controller.checkOut.value,
+                        firstDate: checkOutMinDate,
+                        lastDate: lastDate,
+                        onDateSelected: (date) => controller.setCheckOut(date),
                       ),
-                    ],
-                  )),
+                    ),
+                  ],
+                );
+              }),
               const SizedBox(height: 24),
               BookingSummaryCard(controller: controller),
             ],

@@ -39,6 +39,13 @@ class RoomBookingController extends GetxController {
 
   void setCheckIn(DateTime? date) {
     checkIn.value = date;
+    if (date != null && checkOut.value != null) {
+      final checkInMidnight = AppDateUtils.truncateToMidnight(date);
+      final checkOutMidnight = AppDateUtils.truncateToMidnight(checkOut.value!);
+      if (!checkOutMidnight.isAfter(checkInMidnight)) {
+        checkOut.value = null;
+      }
+    }
     validate();
   }
 
