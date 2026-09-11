@@ -22,31 +22,48 @@ class GuestFilterChips extends StatelessWidget {
     return Obx(() {
       final activeFilter = controller.guestFilter.value;
 
-      return Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: options.map((opt) {
-          final int val = opt['value'] as int;
-          final String label = opt['label'] as String;
-          final bool isSelected = activeFilter == val;
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: options.map((opt) {
+            final int val = opt['value'] as int;
+            final String baseLabel = opt['label'] as String;
+            final int count = controller.countForMinGuests(val);
+            final String displayLabel = '$baseLabel ($count)';
+            final bool isSelected = activeFilter == val;
 
-          return ChoiceChip(
-            label: Text(label),
-            selected: isSelected,
-            onSelected: (selected) {
-              if (selected) {
-                controller.setGuestFilter(val);
-              }
-            },
-            selectedColor: Theme.of(context).colorScheme.primaryContainer,
-            labelStyle: TextStyle(
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              color: isSelected
-                  ? Theme.of(context).colorScheme.primary
-                  : const Color(0xFF475569),
-            ),
-          );
-        }).toList(),
+            return Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: InkWell(
+                onTap: () => controller.setGuestFilter(val),
+                borderRadius: BorderRadius.circular(20),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 150),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isSelected ? const Color(0xFF1D61E7) : Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: isSelected
+                          ? const Color(0xFF1D61E7)
+                          : const Color(0xFFD0D5DD),
+                    ),
+                  ),
+                  child: Text(
+                    displayLabel,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.w500,
+                      color: isSelected ? Colors.white : const Color(0xFF344054),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
       );
     });
   }

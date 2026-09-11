@@ -15,6 +15,11 @@ void main() {
         roomType: 'Deluxe Room',
         pricePerNight: 3500,
         maxGuests: 2,
+        bedType: 'King Bed',
+        roomSize: '32 m²',
+        description: 'Test room description',
+        amenities: ['Free Wi-Fi'],
+        imageUrl: '',
       );
     });
 

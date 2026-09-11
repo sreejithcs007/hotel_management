@@ -64,6 +64,12 @@ class RoomBookingController extends GetxController {
     return rooms.where((r) => r.maxGuests >= guestFilter.value).toList();
   }
 
+  /// Returns total room count matching minimum guest criteria from full list.
+  int countForMinGuests(int minGuests) {
+    if (minGuests <= 0) return rooms.length;
+    return rooms.where((r) => r.maxGuests >= minGuests).length;
+  }
+
   /// Check if a room has an overlapping existing booking for selected dates.
   bool isRoomBookedForSelectedDates(Room room) {
     final start = checkIn.value;

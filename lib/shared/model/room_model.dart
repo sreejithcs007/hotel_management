@@ -3,12 +3,26 @@ class Room {
   final String roomType;
   final double pricePerNight;
   final int maxGuests;
+  final String bedType;
+  final String roomSize;
+  final String description;
+  final List<String> amenities;
+  final String? badgeText;
+  final String? imageBadgeText;
+  final String imageUrl;
 
   const Room({
     required this.roomCode,
     required this.roomType,
     required this.pricePerNight,
     required this.maxGuests,
+    required this.bedType,
+    required this.roomSize,
+    required this.description,
+    required this.amenities,
+    this.badgeText,
+    this.imageBadgeText,
+    required this.imageUrl,
   });
 
   @override

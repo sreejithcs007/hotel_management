@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:hotel_management/modules/unauthorised/room_booking/screen/room_booking_screen.dart';
-import 'package:hotel_management/widget/not_found_screen.dart';
+import '../widget/not_found_screen.dart';
+import '../modules/unauthorised/room_booking/screen/room_booking_screen.dart';
 import 'app_route_paths.dart';
 
 final GoRouter appRouter = GoRouter(
