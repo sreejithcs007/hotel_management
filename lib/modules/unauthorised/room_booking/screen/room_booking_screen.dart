@@ -229,6 +229,7 @@ class RoomBookingScreen extends StatelessWidget {
                                                   controller.checkIn.value,
                                               firstDate: firstDate,
                                               lastDate: lastDate,
+                                              isError: isDateError,
                                               onDateSelected: (date) =>
                                                   controller.setCheckIn(date),
                                             ),
